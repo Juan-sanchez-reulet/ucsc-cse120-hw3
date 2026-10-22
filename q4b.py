@@ -4,7 +4,7 @@ import json
 import pyrtl
 
 
-def build():
+def main():
     enable = pyrtl.Input(1, "enable")
     reset = pyrtl.Input(1, "reset")
     y = pyrtl.Register(2, "y")
@@ -21,7 +21,7 @@ def test_transitions():
         for r in range(2):
             for e in range(2):
                 pyrtl.reset_working_block()
-                y = build()
+                y = main()
                 sim = pyrtl.Simulation(register_value_map={y: initial})
                 sim.step({"reset": r, "enable": e})
                 expected = 0 if r else ((initial + 1) % 4 if e else initial)
@@ -35,7 +35,7 @@ def test_transitions():
 if __name__ == "__main__":
     test_transitions()
     pyrtl.reset_working_block()
-    y = build()
+    y = main()
     trace = pyrtl.SimulationTrace()
     sim = pyrtl.Simulation(tracer=trace)
     # Hold, increment, hold at nonzero Y, wraparound, reset with both enable values.
