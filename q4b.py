@@ -1,6 +1,4 @@
 """Homework 3 Q5(b), using the provided q4b.py filename."""
-from pathlib import Path
-import json
 import pyrtl
 
 
@@ -47,9 +45,4 @@ if __name__ == "__main__":
         assert sim.inspect(y) == expected
         expected = 0 if reset_value else ((expected + 1) % 4 if enable_value else expected)
     trace.render_trace(trace_list=["reset", "enable", "y"])
-    directory = Path(__file__).resolve().parent
-    with (directory / "waveform.vcd").open("w") as f:
-        trace.print_vcd(f)
-    (directory / "trace.json").write_text(json.dumps(
-        {name: list(trace.trace[name]) for name in ["reset", "enable", "y"]}, indent=2))
-    print("PASS: 13-cycle waveform sequence; waveform.vcd and trace.json written")
+    print("PASS: 13-cycle waveform sequence")
